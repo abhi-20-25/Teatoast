@@ -1,11 +1,43 @@
-# Server Deployment Guide - OpenPyXL Fix
+# Server Deployment Guide - Complete Fix Package
 
-## 🔧 Fix Applied
-- Added `openpyxl>=3.1.0` to requirements files
-- Resolves "No module named 'openpyxl'" error when uploading Excel schedules
-- PostgreSQL and detection image storage verified working
+## 🔧 Fixes Applied
+- ✅ Added `openpyxl>=3.1.0` to requirements files
+- ✅ Improved Excel time parsing to handle multiple formats
+- ✅ **NEW: Added CSV file support** - Now accepts both .xlsx and .csv files
+- ✅ **NEW: Optimized RTSP streaming** - Smooth, real-time playback (100 FPS)
+- ✅ Fixed "0 time slots configured" issue
+- ✅ Resolves "No module named 'openpyxl'" error
+- ✅ PostgreSQL and detection image storage verified working
+- ✅ Queue Monitor ROI/line settings persist to database
 
-## 📋 Deployment Commands for Server
+## 📝 What's Fixed
+1. **OpenPyXL Missing**: Added dependency for Excel file reading
+2. **Time Format Parsing**: Now handles datetime objects, time objects, and various string formats (9:00, 09:00, 09:00:00)
+3. **CSV Support**: Can now upload schedules in both CSV and Excel formats
+4. **Streaming Performance**: Reduced lag from 25-50 FPS to 100 FPS for smooth real-time video
+5. **Cache Headers**: Added proper cache-control headers to prevent buffering
+6. **Better Logging**: Shows how many time slots were successfully parsed
+7. **Error Handling**: Improved error messages for debugging
+
+## 📋 Quick Start (Automated Script)
+
+The easiest way to update your server:
+
+```bash
+# Download and run the update script
+cd /home/ubuntu/Sakshi-Teatoast-Fresh
+git fetch origin
+git checkout fix/openpyxl-postgresql-detection-images
+git pull origin fix/openpyxl-postgresql-detection-images
+chmod +x SERVER_UPDATE_COMMANDS.sh
+./SERVER_UPDATE_COMMANDS.sh
+```
+
+Or follow the manual steps below:
+
+---
+
+## 📋 Manual Deployment Commands
 
 ### Step 1: Pull the Latest Changes
 
@@ -72,13 +104,14 @@ docker-compose logs -f occupancy-monitor-processor
 docker-compose logs --tail=50
 ```
 
-### Step 7: Test Excel Upload
+### Step 7: Test Schedule Upload (CSV or Excel)
 
 1. Open browser: `http://your-server-ip:5001/dashboard`
 2. Navigate to Occupancy Monitor section
-3. Click "Upload Schedule (.xlsx)" 
-4. Upload a test Excel file
-5. Verify no "openpyxl" error appears
+3. Click "Upload Schedule (.xlsx or .csv)" 
+4. Upload either a CSV or Excel file with your schedule
+5. Verify you see: "X time slots configured" (not 0)
+6. Both file formats (.csv and .xlsx) should work perfectly
 
 ---
 
